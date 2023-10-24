@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Professor</title>
+</head>
+<body>
+<h1>Test message</h1>
+<p th:text="${professor.firstName}"></p>
+
+<p th:text="${#strings.equalsIgnoreCase(professor.lastName,null)} ? 'NA'
+            : ${professor.lastName}"></p>
+
+</body>
+</html>
