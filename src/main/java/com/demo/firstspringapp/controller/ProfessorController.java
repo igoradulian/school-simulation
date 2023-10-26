@@ -1,14 +1,13 @@
 package com.demo.firstspringapp.controller;
 
 
-import com.demo.firstspringapp.model.Professor;
+import com.demo.firstspringapp.model.ProfessorDTO;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/prof")
+@SessionAttributes("professor")
 public class ProfessorController {
 
 
@@ -20,13 +19,20 @@ public class ProfessorController {
     }
 
     @ModelAttribute("professor")
-    public Professor populateProfessor()
+    public ProfessorDTO populateProfessor()
     {
-        Professor professor = new Professor();
-        professor.setFirstName("Jack");
-        professor.setLastName("Smith");
+        ProfessorDTO professorDTO = new ProfessorDTO();
+        professorDTO.setFirstName("Jack");
+        professorDTO.setLastName("Smith");
 
-        return professor;
+        return professorDTO;
+    }
+
+    @GetMapping("/get-session")
+    public String getProfessorFromSession(@ModelAttribute("professor") ProfessorDTO professorDTO)
+    {
+
+        return "profeessor-session";
     }
 
 }

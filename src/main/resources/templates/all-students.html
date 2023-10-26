@@ -23,7 +23,7 @@
                 <td th:text="${student.firstName}"></td>
                 <td th:text="${student.lastName}"></td>
                 <td th:text="${student.email}"></td>
-                <td th:text="${student.address.streetName}"></td>
+                <td th:text="${student.addressDTO.streetName}"></td>
                 <td>
                     <div th:if="${student.enabled} == 'YES'">
                             <span th:text="'STUDENT ACCOUNT ACTIVATED'"></span>
@@ -33,6 +33,9 @@
                     <span th:text="'STUDENT ACCOUNT DISABLED'"/>
                          </div>
                 </td>
+
+                <td><a th:href="@{/find-student-by-email(email=${student.email})}">Go To Student</a></td>
+                <td><a th:href="@{'/find-student-by-email/'+ ${student.email}}">Go To Student With Path Variable</a></td>
             </tr>
         </tbody>
 

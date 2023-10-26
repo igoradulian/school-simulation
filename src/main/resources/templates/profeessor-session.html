@@ -3,11 +3,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Professor</title>
+    <title>Session Example</title>
 </head>
 <body>
-<h1>Test message</h1>
-<p th:text="${professorDTO.firstName}"></p>
+
+<p th:text="${professorDTO.lastName}"></p>
 
 <p th:text="${#strings.equalsIgnoreCase(professorDTO.lastName,null)} ? 'NA'
             : ${professorDTO.lastName}"></p>

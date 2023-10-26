@@ -1,6 +1,6 @@
 package com.demo.firstspringapp.config;
 
-import com.demo.firstspringapp.model.Address;
+import com.demo.firstspringapp.model.AddressDTO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 public class StudentConfig {
 
     @Bean
-    public Address getAddress()
+    public AddressDTO getAddress()
     {
-        return new Address("123 Main");
+        return new AddressDTO("123 Main");
     }
 }

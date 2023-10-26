@@ -3,8 +3,6 @@ package com.demo.firstspringapp.model;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +12,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Student {
+public class StudentDTO {
 
 
     @NotEmpty(message = "Can't be empty")
@@ -27,7 +25,7 @@ public class Student {
     @NotEmpty(message = "Can't be empty")
     private String email;
 
-    private Address address;
+    private AddressDTO address;
 
     private String enabled;
 
