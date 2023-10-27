@@ -12,9 +12,7 @@ import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -38,24 +36,73 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public void saveStudent(StudentDTO studentDTO, AddressDTO addressDTO) {
 
-        //studentDB.put(studentDTO.getEmail(), studentDTO);
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        Student student = modelMapper.map(studentDTO, Student.class);
-        Address address = modelMapper.map(addressDTO, Address.class);
+        if(studentRepository.findStudentByEmail(studentDTO.getEmail()).isPresent()){
+            throw new RuntimeException("Account already exist");
+        }
+        else
+        {
+            ModelMapper modelMapper = new ModelMapper();
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+            Student student = modelMapper.map(studentDTO, Student.class);
+            Address address = modelMapper.map(addressDTO, Address.class);
 
-        addressRepository.save(address);
-        student.setAddress(address);
-        studentRepository.save(student);
+            addressRepository.save(address);
+            student.setAddress(address);
+            studentRepository.save(student);
+        }
+
+
+
     }
 
     @Override
     public List<StudentDTO> getAllStudents() {
-        return studentDB.values().stream().toList();
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+
+        for(Student student : studentRepository.findAll())
+        {
+            ModelMapper modelMapper = new ModelMapper();
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+            StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
+
+            studentDTOS.add(studentDTO);
+        }
+        return studentDTOS;
     }
 
     @Override
     public StudentDTO findStudentByEmail(String email) {
-        return studentDB.get(email);
+
+           Optional<Student> studentOptional = studentRepository.findStudentByEmail(email);
+            try {
+
+                if(studentOptional.isPresent()) {
+                    Student student= studentOptional.get();
+                    ModelMapper modelMapper = new ModelMapper();
+                    modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+                    StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
+                    return studentDTO;
+                }
+            }catch (RuntimeException exception){
+                throw new RuntimeException("Student not found");
+            }
+                    throw new RuntimeException("Student not found");
+    }
+
+    @Override
+    public List<StudentDTO> searchStudentsByLastName(String name) {
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+
+        for(Student student : studentRepository.findStudentsByLastNameLike(name))
+        {
+            ModelMapper modelMapper = new ModelMapper();
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+            StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
+
+          //  AddressDTO addressDTO = addressRepository.findById(student)
+
+            studentDTOS.add(studentDTO);
+        }
+        return studentDTOS;
     }
 }

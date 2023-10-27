@@ -1,6 +1,7 @@
 package com.demo.firstspringapp.model;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 @Setter
 @Getter
@@ -8,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Component
 public class AddressDTO {
 
 

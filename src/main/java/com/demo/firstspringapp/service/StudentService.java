@@ -11,4 +11,6 @@ public interface StudentService {
     public List<StudentDTO> getAllStudents();
 
     public StudentDTO findStudentByEmail(String email);
+
+    public List<StudentDTO> searchStudentsByLastName(String name);
 }

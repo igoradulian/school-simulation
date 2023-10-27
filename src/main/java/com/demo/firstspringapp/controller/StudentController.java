@@ -1,9 +1,13 @@
 package com.demo.firstspringapp.controller;
 
 import com.demo.firstspringapp.model.AddressDTO;
+import com.demo.firstspringapp.model.SearchModel;
 import com.demo.firstspringapp.model.StudentDTO;
+import com.demo.firstspringapp.repository.AddressRepository;
+import com.demo.firstspringapp.service.AddressClient;
 import com.demo.firstspringapp.service.AddressService;
 import com.demo.firstspringapp.service.StudentService;
+import com.demo.firstspringapp.service.StudentServiceImpl;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,16 +20,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class StudentController {
 
     private static final Logger logger = LoggerFactory.getLogger(StudentController.class.getName());
+
     @Autowired
-    StudentService studentService;
+    StudentServiceImpl studentService;
 
     @Autowired
     AddressService addressService;
+
+    @Autowired
+    AddressClient addressClient;
 
     @GetMapping("/")
     public String showStudent(Model model)
@@ -38,6 +47,7 @@ public class StudentController {
         StudentDTO studentDTO =  context.getBean(StudentDTO.class);
 
         AddressDTO addressDTO = new AddressDTO();
+        addressDTO.setStreetName(addressClient.printAddressOfBean());
         studentDTO.setAddress(addressDTO);
         studentDTO.setFirstName("Igor");
         studentDTO.setLastName("Adulyan");
@@ -65,7 +75,7 @@ public class StudentController {
     public String processForm(@Valid @ModelAttribute ("student") StudentDTO studentDTO,
                               BindingResult bindingResult,
                               @ModelAttribute ("address") AddressDTO addressDTO,
-                              BindingResult bindingResultAddress){
+                              BindingResult bindingResultAddress, Model model){
 
         if(bindingResult.hasErrors())
         {
@@ -74,7 +84,13 @@ public class StudentController {
             return "student-sign-up";
         }
 
-        studentService.saveStudent(studentDTO, addressDTO);
+        try {
+            studentService.saveStudent(studentDTO, addressDTO);
+        }catch (Exception e)
+        {
+            model.addAttribute("message", "User already exist");
+            return "student-sign-up";
+        }
 
         return "confirmation";
     }
@@ -104,6 +120,25 @@ public class StudentController {
 
         return "student-info";
     }
+
+    @GetMapping("/search")
+    public String findStudentByLastName(Model model)
+    {
+        model.addAttribute("name", new SearchModel());
+
+        return "student-search";
+    }
+
+    @PostMapping("/process-search")
+    public String processSearch(@ModelAttribute("name") SearchModel searchModel, Model model)
+    {
+       List<StudentDTO> studentDTOList =  studentService.searchStudentsByLastName(searchModel.getName());
+
+       model.addAttribute("students", studentDTOList);
+
+       return "search-result";
+    }
+
 
 
 }

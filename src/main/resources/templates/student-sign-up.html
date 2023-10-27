@@ -6,8 +6,11 @@
     <title>Student Sign up</title>
 </head>
 <body>
-    <form action="#" th:action="@{/process-student}" method="post">
-        <div th:object="${student}" >
+
+    <span th:text="${#strings.equalsIgnoreCase(message,null)} ? ''
+            : ${message}"></span>
+    <form action="#" th:action="@{/process-student}" th:object="${student}" method="post">
+        <div >
         <label>First Name</label>
         <input type="text" th:field="*{firstName}">
         <span th:if="${#fields.hasErrors('firstName')}"

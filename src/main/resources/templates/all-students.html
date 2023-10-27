@@ -23,7 +23,7 @@
                 <td th:text="${student.firstName}"></td>
                 <td th:text="${student.lastName}"></td>
                 <td th:text="${student.email}"></td>
-                <td th:text="${student.addressDTO.streetName}"></td>
+                <td th:text="${student.address.getStreetName()}"></td>
                 <td>
                     <div th:if="${student.enabled} == 'YES'">
                             <span th:text="'STUDENT ACCOUNT ACTIVATED'"></span>

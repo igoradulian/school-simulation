@@ -17,7 +17,7 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     private String firstName;
 
@@ -25,9 +25,10 @@ public class Student {
 
     private String email;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Address address;
 
     private String enabled;
 
+    private String login;
 }

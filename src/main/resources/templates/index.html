@@ -14,7 +14,8 @@
 
         <div  th:object="${student}">
 
-            <h2 th:text="${student.addressDTO.getStreetName()}"></h2>
+            <h2 th:text="${#strings.equalsIgnoreCase(student.address.streetName,null)} ? 'NA'
+            : ${student.address.streetName}"></h2>
 
         </div>
 </body>
