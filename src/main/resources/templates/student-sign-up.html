@@ -9,6 +9,8 @@
 
     <span th:text="${#strings.equalsIgnoreCase(message,null)} ? ''
             : ${message}"></span>
+
+
     <form action="#" th:action="@{/process-student}" th:object="${student}" method="post">
         <div >
         <label>First Name</label>
@@ -39,6 +41,26 @@
             <option value="YES">Yes</option>
             <option value="NO">No</option>
         </select>
+        </div>
+
+        <div th:object="${user}">
+            <label>Login</label>
+            <input type="text" th:field="*{login}">
+            <span th:if="${#fields.hasErrors('login')}"
+                  th:errors="*{login}"></span>
+            <br>
+
+            <label>Password</label>
+            <input type="password" th:field="*{password}">
+            <span th:if="${#fields.hasErrors('password')}"
+                  th:errors="*{password}"></span>
+            <br>
+
+            <label>Repeat Password</label>
+            <input type="password" th:field="*{matchPassword}">
+            <span th:if="${#fields.hasErrors('matchPassword')}"
+                  th:errors="*{matchPassword}"></span>
+            <br>
         </div>
 
         <input type="submit" value="Sign Up">

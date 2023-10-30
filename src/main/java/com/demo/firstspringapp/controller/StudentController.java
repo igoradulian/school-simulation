@@ -3,11 +3,9 @@ package com.demo.firstspringapp.controller;
 import com.demo.firstspringapp.model.AddressDTO;
 import com.demo.firstspringapp.model.SearchModel;
 import com.demo.firstspringapp.model.StudentDTO;
+import com.demo.firstspringapp.model.UserDTO;
 import com.demo.firstspringapp.repository.AddressRepository;
-import com.demo.firstspringapp.service.AddressClient;
-import com.demo.firstspringapp.service.AddressService;
-import com.demo.firstspringapp.service.StudentService;
-import com.demo.firstspringapp.service.StudentServiceImpl;
+import com.demo.firstspringapp.service.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +33,9 @@ public class StudentController {
 
     @Autowired
     AddressClient addressClient;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/")
     public String showStudent(Model model)
@@ -67,6 +68,7 @@ public class StudentController {
     {
         model.addAttribute("student", new StudentDTO());
         model.addAttribute("address", new AddressDTO());
+        model.addAttribute("user", new UserDTO());
 
         return "student-sign-up";
     }
@@ -75,7 +77,9 @@ public class StudentController {
     public String processForm(@Valid @ModelAttribute ("student") StudentDTO studentDTO,
                               BindingResult bindingResult,
                               @ModelAttribute ("address") AddressDTO addressDTO,
-                              BindingResult bindingResultAddress, Model model){
+                              BindingResult bindingResultAddress,
+                              @ModelAttribute ("user") UserDTO userDTO,
+                                  Model model){
 
         if(bindingResult.hasErrors())
         {
@@ -85,7 +89,10 @@ public class StudentController {
         }
 
         try {
+
             studentService.saveStudent(studentDTO, addressDTO);
+            userDTO.setEmail(studentDTO.getEmail());
+            userService.saveUser(userDTO);
         }catch (Exception e)
         {
             model.addAttribute("message", "User already exist");
