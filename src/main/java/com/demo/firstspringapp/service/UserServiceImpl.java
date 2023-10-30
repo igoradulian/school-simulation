@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,8 +44,10 @@ public class UserServiceImpl implements UserService{
             //TODO add loging here
             throw new UsernameNotFoundException("Invalid login or password");
 
+        List<Role> list = roleRepository.findRoleByUser(user.getId());
+
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                user.getPassword(),mapRolesToAuthorities(user.getRoles()));
+                user.getPassword(),mapRolesToAuthorities(list));
     }
 
 
