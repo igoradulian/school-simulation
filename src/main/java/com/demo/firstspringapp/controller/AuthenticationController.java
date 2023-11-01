@@ -18,7 +18,7 @@ public class AuthenticationController {
     @RequestMapping("/home")
     public String homePage() {
 
-        return "redirect:/list-of-students";
+        return "redirect:/account";
     }
 
 }

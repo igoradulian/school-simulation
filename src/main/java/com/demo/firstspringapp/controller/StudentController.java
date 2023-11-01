@@ -78,13 +78,19 @@ public class StudentController {
                               BindingResult bindingResult,
                               @ModelAttribute ("address") AddressDTO addressDTO,
                               BindingResult bindingResultAddress,
-                              @ModelAttribute ("user") UserDTO userDTO,
+                              @Valid @ModelAttribute ("user") UserDTO userDTO, BindingResult
+                                userBindingResult,
                                   Model model){
 
         if(bindingResult.hasErrors())
         {
             logger.warn("User wrong input " +
                     Arrays.toString(bindingResult.getSuppressedFields()));
+            return "student-sign-up";
+        }
+
+        if(userBindingResult.hasErrors())
+        {
             return "student-sign-up";
         }
 
@@ -146,6 +152,11 @@ public class StudentController {
        return "search-result";
     }
 
+    @GetMapping("/account")
+    public String userAccount()
+    {
+        return "account";
+    }
 
 
 }

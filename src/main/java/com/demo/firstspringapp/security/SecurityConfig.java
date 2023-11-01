@@ -38,9 +38,9 @@ public class SecurityConfig {
         protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             http.authorizeHttpRequests(
                     auth -> auth.requestMatchers("/","/process-student","/form").permitAll()
-                            .requestMatchers("/list-of-students", "/find-student-by-email"
-                                    , "/find-student-by-email/{email}", "/search", "/process-search")
-                            .hasAnyRole("STUDENT", "PROFESSOR")
+                            .requestMatchers("/account","/list-of-students", "/find-student-by-email"
+                                    , "/find-student-by-email/{email}")
+                            .hasAnyRole("STUDENT","PROFESSOR").requestMatchers("/search", "/process-search").hasRole("PROFESSOR")
                             .anyRequest().authenticated()
                     )
                     .formLogin(form -> form

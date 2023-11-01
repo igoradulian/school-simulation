@@ -5,6 +5,7 @@ import com.demo.firstspringapp.entity.User;
 import com.demo.firstspringapp.model.UserDTO;
 import com.demo.firstspringapp.repository.RoleRepository;
 import com.demo.firstspringapp.repository.UserRepository;
+import com.demo.firstspringapp.security.UserPrincipal;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,14 @@ public class UserServiceImpl implements UserService{
 
     private UserRepository userRepository;
 
-    private RoleRepository roleRepository;
+    private RoleService roleService;
 
     private BCryptPasswordEncoder encoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, @Lazy BCryptPasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, @Lazy BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
         this.encoder = encoder;
     }
 
@@ -44,10 +45,11 @@ public class UserServiceImpl implements UserService{
             //TODO add loging here
             throw new UsernameNotFoundException("Invalid login or password");
 
-        List<Role> list = roleRepository.findRoleByUser(user.getId());
+        //List<Role> list = roleService.getRolesByUser(user.getId());
 
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                user.getPassword(),mapRolesToAuthorities(list));
+        /*return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                user.getPassword(),mapRolesToAuthorities(list));*/
+        return new UserPrincipal(user, roleService.getRolesByUser(user.getId()));
     }
 
 
@@ -64,8 +66,9 @@ public class UserServiceImpl implements UserService{
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         User user = modelMapper.map(userdto, User.class);
-        user.setRoles(Arrays.asList(roleRepository.findRoleByName("ROLE_STUDENT")));
+        user.setRoles(Arrays.asList(roleService.findRoleByRoleName("ROLE_STUDENT")));
         user.setPassword(encoder.encode(userdto.getPassword()));
+        user.setEnabled("Y");
 
         userRepository.save(user);
 
