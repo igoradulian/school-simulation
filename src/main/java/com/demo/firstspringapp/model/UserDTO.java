@@ -24,4 +24,6 @@ public class UserDTO {
     @ValidPassword(message = "Provide complex password")
     private String password;
     private String matchPassword;
+
+    private String role;
 }

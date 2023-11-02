@@ -11,11 +11,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -98,6 +102,7 @@ public class StudentController {
 
             studentService.saveStudent(studentDTO, addressDTO);
             userDTO.setEmail(studentDTO.getEmail());
+            userDTO.setRole("ROLE_STUDENT");
             userService.saveUser(userDTO);
         }catch (Exception e)
         {
@@ -143,20 +148,24 @@ public class StudentController {
     }
 
     @PostMapping("/process-search")
-    public String processSearch(@ModelAttribute("name") SearchModel searchModel, Model model)
+    public RedirectView processSearch(@ModelAttribute("name") SearchModel searchModel, RedirectAttributes redirectAttributes)
     {
-       List<StudentDTO> studentDTOList =  studentService.searchStudentsByLastName(searchModel.getName());
 
-       model.addAttribute("students", studentDTOList);
 
-       return "search-result";
+        redirectAttributes.addAttribute("student-name", searchModel.getName());
+
+       return new RedirectView("/myboot/search-student");
     }
 
-    @GetMapping("/account")
-    public String userAccount()
+    @GetMapping("/search-student")
+    public String searchResult(@RequestParam("student-name") String name, Model model)
     {
-        return "account";
+        List<StudentDTO> studentDTOList =  studentService.searchStudentsByLastName(name);
+        model.addAttribute("students", studentDTOList);
+
+        return "search-result";
     }
+
 
 
 }

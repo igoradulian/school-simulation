@@ -2,6 +2,7 @@ package com.demo.firstspringapp.service;
 
 import com.demo.firstspringapp.entity.Role;
 import com.demo.firstspringapp.entity.User;
+import com.demo.firstspringapp.exception.UserExistException;
 import com.demo.firstspringapp.model.UserDTO;
 import com.demo.firstspringapp.repository.RoleRepository;
 import com.demo.firstspringapp.repository.UserRepository;
@@ -60,18 +61,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveUser(UserDTO userdto) {
+    public void saveUser(UserDTO userdto) throws UserExistException {
 
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        User user = modelMapper.map(userdto, User.class);
-        user.setRoles(Arrays.asList(roleService.findRoleByRoleName("ROLE_STUDENT")));
-        user.setPassword(encoder.encode(userdto.getPassword()));
-        user.setEnabled("Y");
+        if(userRepository.findUserByEmail(userdto.getEmail()) != null)
+        {
+            throw new UserExistException("User exist");
+        }else {
 
-        userRepository.save(user);
+            User user = modelMapper.map(userdto, User.class);
+            user.setRoles(Arrays.asList(roleService.findRoleByRoleName(userdto.getRole())));
+            user.setPassword(encoder.encode(userdto.getPassword()));
+            user.setEnabled("Y");
 
+            userRepository.save(user);
+        }
     }
 
     @Override

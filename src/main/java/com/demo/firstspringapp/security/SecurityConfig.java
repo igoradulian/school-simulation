@@ -37,10 +37,12 @@ public class SecurityConfig {
         @Bean
         protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             http.authorizeHttpRequests(
-                    auth -> auth.requestMatchers("/","/process-student","/form").permitAll()
+                    auth -> auth.requestMatchers("/","/process-student",
+                                    "/form", "/prof/form", "/process-professor").permitAll()
                             .requestMatchers("/account","/list-of-students", "/find-student-by-email"
                                     , "/find-student-by-email/{email}")
-                            .hasAnyRole("STUDENT","PROFESSOR").requestMatchers("/search", "/process-search").hasRole("PROFESSOR")
+                            .hasAnyRole("STUDENT","PROFESSOR")
+                            .requestMatchers("/search", "/process-search", "/professor-fullname").hasRole("PROFESSOR")
                             .anyRequest().authenticated()
                     )
                     .formLogin(form -> form

@@ -17,5 +17,4 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query(value = "from Student where lastName like %:name%")
     public List<Student> findStudentsByLastNameLike(@Param(value = "name") String name);
-
 }
