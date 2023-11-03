@@ -99,8 +99,6 @@ public class StudentServiceImpl implements StudentService{
             modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
             StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
 
-          //  AddressDTO addressDTO = addressRepository.findById(student)
-
             studentDTOS.add(studentDTO);
         }
         return studentDTOS;

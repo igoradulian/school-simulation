@@ -7,6 +7,7 @@ import com.demo.firstspringapp.model.UserDTO;
 import com.demo.firstspringapp.repository.RoleRepository;
 import com.demo.firstspringapp.repository.UserRepository;
 import com.demo.firstspringapp.security.UserPrincipal;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String userIdentifier) {
         User user = userRepository.findUserByEmail(userIdentifier);
         if(user == null)
@@ -61,6 +63,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public void saveUser(UserDTO userdto) throws UserExistException {
 
         ModelMapper modelMapper = new ModelMapper();
@@ -81,11 +84,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
 
     @Override
+    @Transactional
     public User findUserByLogin(String login) {
         return userRepository.findUserByLogin(login);
     }
