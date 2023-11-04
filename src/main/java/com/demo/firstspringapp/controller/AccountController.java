@@ -3,6 +3,7 @@ package com.demo.firstspringapp.controller;
 
 import com.demo.firstspringapp.entity.Role;
 import com.demo.firstspringapp.entity.User;
+import com.demo.firstspringapp.exception.UserExistException;
 import com.demo.firstspringapp.model.ProfessorDTO;
 import com.demo.firstspringapp.model.StudentDTO;
 import com.demo.firstspringapp.service.ProfessorService;
@@ -37,8 +38,7 @@ public class AccountController {
     }
 
     @GetMapping("/account")
-    public String userAccount(@AuthenticationPrincipal UserDetails userDetails, Model model)
-    {
+    public String userAccount(@AuthenticationPrincipal UserDetails userDetails, Model model) throws UserExistException {
 
         User user = userService.findUserByEmail(userDetails.getUsername());
 

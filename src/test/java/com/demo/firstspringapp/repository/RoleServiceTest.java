@@ -3,7 +3,9 @@ package com.demo.firstspringapp.repository;
 import com.demo.firstspringapp.entity.Role;
 import com.demo.firstspringapp.service.RoleService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,10 +14,17 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RoleServiceTest {
 
     @Autowired
     RoleService roleService;
+
+    @BeforeAll
+    public void setup() {
+       roleService.saveRoles(new Role("ROLE_STUDENT"));
+       roleService.saveRoles(new Role("ROLE_PROFESSOR"));
+    }
 
     @Test
     public void testFindRoleByName()

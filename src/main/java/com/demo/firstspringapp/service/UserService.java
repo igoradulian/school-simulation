@@ -13,7 +13,7 @@ public interface UserService extends UserDetailsService {
 
     public void saveUser(UserDTO user) throws UserExistException;
 
-    public User findUserByEmail(String email);
+    public User findUserByEmail(String email) throws UserExistException;
 
     public User findUserByLogin(String login);
 }

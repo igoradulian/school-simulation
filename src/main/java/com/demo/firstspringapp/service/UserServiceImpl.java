@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,8 +44,8 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userIdentifier) {
-        User user = userRepository.findUserByEmail(userIdentifier);
-        if(user == null)
+        Optional<User> user = userRepository.findUserByEmail(userIdentifier);
+        if(user.isEmpty())
             //TODO add loging here
             throw new UsernameNotFoundException("Invalid login or password");
 
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService{
 
         /*return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(),mapRolesToAuthorities(list));*/
-        return new UserPrincipal(user, roleService.getRolesByUser(user.getId()));
+        return new UserPrincipal(user.get(), roleService.getRolesByUser(user.get().getId()));
     }
 
 
@@ -66,13 +67,14 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public void saveUser(UserDTO userdto) throws UserExistException {
 
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        if(userRepository.findUserByEmail(userdto.getEmail()) != null)
+        if(userRepository.findUserByEmail(userdto.getEmail()).isPresent())
         {
             throw new UserExistException("User exist");
         }else {
+
+            ModelMapper modelMapper = new ModelMapper();
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
             User user = modelMapper.map(userdto, User.class);
             user.setRoles(Arrays.asList(roleService.findRoleByRoleName(userdto.getRole())));
@@ -85,8 +87,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+    public User findUserByEmail(String email) throws UserExistException {
+
+        Optional<User> optionalUser = userRepository.findUserByEmail(email);
+
+        if(optionalUser.isPresent())
+                return userRepository.findUserByEmail(email).get();
+
+        else
+            throw new UserExistException("User does not exist");
     }
 
     @Override
