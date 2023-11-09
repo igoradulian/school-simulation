@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,8 +16,10 @@ import java.util.stream.Collectors;
 /**
  * @author Igor Adulyan
  */
-public class UserPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails, Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 3160183443064687998L;
     private User user;
 
     private List<Role> roles;
@@ -29,7 +33,7 @@ public class UserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(role ->
-                new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+                new SimpleGrantedAuthority(role.getName())).toList();
     }
 
     @Override

@@ -4,15 +4,12 @@ import com.demo.firstspringapp.model.AddressDTO;
 import com.demo.firstspringapp.model.SearchModel;
 import com.demo.firstspringapp.model.StudentDTO;
 import com.demo.firstspringapp.model.UserDTO;
-import com.demo.firstspringapp.repository.AddressRepository;
 import com.demo.firstspringapp.service.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -21,8 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Arrays;
 import java.util.List;
+
+import static com.demo.firstspringapp.commons.Helper.STUDENT_SIGN_UP_TEMP;
 
 @Controller
 public class StudentController {
@@ -60,7 +58,7 @@ public class StudentController {
 
         model.addAttribute("student", studentDTO);
 
-        logger.info("Student info is here " + studentDTO.getEmail());
+        logger.info("Student info is here {}", studentDTO.getEmail());
 
         return "index";
 
@@ -74,7 +72,7 @@ public class StudentController {
         model.addAttribute("address", new AddressDTO());
         model.addAttribute("user", new UserDTO());
 
-        return "student-sign-up";
+        return STUDENT_SIGN_UP_TEMP;
     }
 
     @PostMapping("/process-student")
@@ -88,14 +86,14 @@ public class StudentController {
 
         if(bindingResult.hasErrors())
         {
-            logger.warn("User wrong input " +
-                    Arrays.toString(bindingResult.getSuppressedFields()));
-            return "student-sign-up";
+            logger.warn("User wrong input {}",
+                    "Student input has errors");
+            return STUDENT_SIGN_UP_TEMP;
         }
 
         if(userBindingResult.hasErrors())
         {
-            return "student-sign-up";
+            return STUDENT_SIGN_UP_TEMP;
         }
 
         try {
@@ -107,7 +105,7 @@ public class StudentController {
         }catch (Exception e)
         {
             model.addAttribute("message", "User already exist");
-            return "student-sign-up";
+            return STUDENT_SIGN_UP_TEMP;
         }
 
         return "confirmation";

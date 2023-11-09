@@ -19,6 +19,7 @@ public class SecurityConfig {
         UserServiceImpl userService;
 
 
+        @Bean
         public DaoAuthenticationProvider authenticationProvider()
         {
             DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
