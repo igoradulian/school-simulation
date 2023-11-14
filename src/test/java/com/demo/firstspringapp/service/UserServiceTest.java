@@ -4,6 +4,7 @@ import com.demo.firstspringapp.entity.Role;
 import com.demo.firstspringapp.entity.User;
 import com.demo.firstspringapp.exception.UserExistException;
 import com.demo.firstspringapp.model.UserDTO;
+import com.demo.firstspringapp.repository.RoleRepository;
 import com.demo.firstspringapp.repository.UserRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class UserServiceTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     @Autowired
     RoleService roleService;
@@ -49,6 +53,12 @@ public class UserServiceTest {
         User actualUser = userService.findUserByEmail("john@test.com");
         Assertions.assertNotNull(actualUser.getEmail(), user.getEmail());
 
+    }
+
+    @AfterAll
+    public void cleanUp()
+    {
+       userRepository.deleteAll();
     }
 
 

@@ -2,10 +2,7 @@ package com.demo.firstspringapp.repository;
 
 import com.demo.firstspringapp.entity.Role;
 import com.demo.firstspringapp.service.RoleService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,6 +16,9 @@ public class RoleServiceTest {
 
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     @BeforeAll
     public void setup() {
@@ -34,5 +34,11 @@ public class RoleServiceTest {
         Role roleActual = roleService.findRoleByRoleName("ROLE_STUDENT");
 
         Assertions.assertEquals(roleExpected.getName(),roleActual.getName());
+    }
+
+    @AfterAll
+    public void cleanUp()
+    {
+        roleRepository.deleteAll();
     }
 }
