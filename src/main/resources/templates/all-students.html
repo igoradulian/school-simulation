@@ -17,8 +17,8 @@
             <th>Status</th>
         </tr>
         </thead>
-        <tbody>
-            <tr th:each="student, iterStat : ${students}">
+        <tbody>th:each="student, iterStat : ${students}"
+            <tr >
                 <td th:text="${iterStat.index + 1}"></td>
                 <td th:text="${student.firstName}"></td>
                 <td th:text="${student.lastName}"></td>
