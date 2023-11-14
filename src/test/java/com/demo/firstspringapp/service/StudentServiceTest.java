@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Import;
 import java.util.List;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.class)
 @Import(ConfigTest.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StudentServiceTest {
 
     StudentDTO studentDTO;
