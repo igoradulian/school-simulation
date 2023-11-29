@@ -1,4 +1,4 @@
-# School simulation application   ![GitHub Image](/spring.png)
+# School simulation application   ![GitHub Image](/spring.png) ![GitHub Image](/junit.png) ![GitHub Image](/maven.png)
 Student managment application for education and demo purposes		
 
 This is Spring Boot master branch which contians blank project for cloning and set up.
