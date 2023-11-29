@@ -2,44 +2,49 @@
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>All OUR STUDENTS</title>
+	<meta charset="UTF-8">
+	<title>All OUR STUDENTS</title>
+	<link rel="stylesheet" href="/css/menu.css">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <table>
-        <thead>
-        <tr>
-            <th>Number</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>th:each="student, iterStat : ${students}"
-            <tr >
-                <td th:text="${iterStat.index + 1}"></td>
-                <td th:text="${student.firstName}"></td>
-                <td th:text="${student.lastName}"></td>
-                <td th:text="${student.email}"></td>
-                <td th:text="${student.address.getStreetName()}"></td>
-                <td>
-                    <div th:if="${student.enabled} == 'YES'">
-                            <span th:text="'STUDENT ACCOUNT ACTIVATED'"></span>
-                        </div>
+<div th:replace="~{navbar-fragment.html :: nav}"> </div>
+	<main>
+		<table>
+			<thead>
+				<tr>
+					<th>Number</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Address</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="student, iterStat : ${students}">
+					<td th:text="${iterStat.index + 1}"></td>
+					<td th:text="${student.firstName}"></td>
+					<td th:text="${student.lastName}"></td>
+					<td th:text="${student.email}"></td>
+					<td th:text="${student.address.getStreetName()}"></td>
+					<td>
+						<div th:if="${student.enabled} == 'YES'">
+							<span th:text="'STUDENT ACCOUNT ACTIVATED'"></span>
+						</div>
 
-                        <div th:if="${student.enabled} == 'NO'">
-                    <span th:text="'STUDENT ACCOUNT DISABLED'"/>
-                         </div>
-                </td>
+						<div th:if="${student.enabled} == 'NO'">
+							<span th:text="'STUDENT ACCOUNT DISABLED'" />
+						</div>
+					</td>
 
-                <td><a th:href="@{/find-student-by-email(email=${student.email})}">Go To Student</a></td>
-                <td><a th:href="@{'/find-student-by-email/'+ ${student.email}}">Go To Student With Path Variable</a></td>
-            </tr>
-        </tbody>
+					<td><a th:href="@{/find-student-by-email(email=${student.email})}">Go To Student</a></td>
+					<td><a th:href="@{'/find-student-by-email/'+ ${student.email}}">Go To Student With Path Variable</a>
+					</td>
+				</tr>
+			</tbody>
 
-    </table>
-
+		</table>
+	</main>
 </body>
 </html>

@@ -2,69 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Student Sign up</title>
+  <meta charset="UTF-8">
+  <title>Student Sign up</title>
+  <link rel="stylesheet" href="/css/menu.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/form.css">
 </head>
 <body>
+<div th:replace="~{navbar-fragment.html :: nav}"> </div>
+  <main>
+    <div class="main-container">
+      <div id="sign-up" class="left-container sign-up">
+        <h1 style="margin-top: 32px;">So let's sign up</h1>
+        <span th:text="${#strings.equalsIgnoreCase(message,null)} ? ''
+                        : ${message}"></span>
+        <div style="width: 100%;">
+          <span th:text="${#strings.equalsIgnoreCase(message,null)} ? ''
+                        : ${message}"></span>
+          <form action="#" th:action="@{/process-student}" th:object="${student}" method="post" class="signup-form">
+            <div style="display: contents;">
+              <input type="text" th:field="*{firstName}" placeholder="First Name">
+              <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
 
-    <span th:text="${#strings.equalsIgnoreCase(message,null)} ? ''
-            : ${message}"></span>
+              <input type="text" th:field="*{lastName}" placeholder="Last Name">
+              <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
 
+              <input type="text" th:field="*{email}" placeholder="Email">
+              <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 
-    <form action="#" th:action="@{/process-student}" th:object="${student}" method="post">
-        <div >
-        <label>First Name</label>
-        <input type="text" th:field="*{firstName}">
-        <span th:if="${#fields.hasErrors('firstName')}"
-              th:errors="*{firstName}"></span>
-        <br>
+              <div th:object="${address}" style="display: contents;">
+                <input type="text" th:field="*{streetName}" placeholder="Address">
+              </div>
 
-        <label>Last Name</label>
-        <input type="text" th:field="*{lastName}">
-        <span th:if="${#fields.hasErrors('lastName')}"
-              th:errors="*{lastName}"></span>
-        <br>
+              <select th:field="*{enabled}">
+                <option value="YES">Yes</option>
+                <option value="NO">No</option>
+              </select>
+            </div>
+            <div th:object="${user}" style="display: contents;">
+              <input type="text" th:field="*{login}" placeholder="Login">
+              <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
 
-        <label>Email</label>
-        <input type="text" th:field="*{email}">
-        <span th:if="${#fields.hasErrors('email')}"
-              th:errors="*{email}"></span>
-        <br>
+              <input type="password" th:field="*{password}" placeholder="Password">
+              <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
-        <div th:object="${address}">
-        <label>Address</label>
-        <input type="text" th:field="*{streetName}">
-        <br>
+              <input type="password" th:field="*{matchPassword}" placeholder="Repeat Password">
+              <span th:if="${#fields.hasErrors('matchPassword')}" th:errors="*{matchPassword}"></span>
+            </div>
+
+            <button type="submit" style="margin-bottom: 10px;">Sign Up</button>
+          </form>
         </div>
-
-        <select th:field="*{enabled}">
-            <option value="YES">Yes</option>
-            <option value="NO">No</option>
-        </select>
+        <div class="signin-link-container" style="margin-bottom: 32px;">
+          <a class="signin-link" href="login.html">ALready have an account? Click here!</a>
         </div>
-
-        <div th:object="${user}">
-            <label>Login</label>
-            <input type="text" th:field="*{login}">
-            <span th:if="${#fields.hasErrors('login')}"
-                  th:errors="*{login}"></span>
-            <br>
-
-            <label>Password</label>
-            <input type="password" th:field="*{password}">
-            <span th:if="${#fields.hasErrors('password')}"
-                  th:errors="*{password}"></span>
-            <br>
-
-            <label>Repeat Password</label>
-            <input type="password" th:field="*{matchPassword}">
-            <span th:if="${#fields.hasErrors('matchPassword')}"
-                  th:errors="*{matchPassword}"></span>
-            <br>
-        </div>
-
-        <input type="submit" value="Sign Up">
-    </form>
-
+      </div>
+      <div class="right-container" style="background-image: url('../static/img/sign-up-student.png');">
+      </div>
+    </div>
+  </main>
 </body>
 </html>

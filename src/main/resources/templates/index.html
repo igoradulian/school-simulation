@@ -2,21 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Index Page</title>
+	<meta charset="UTF-8">
+	<title>Index Page</title>
+	<link rel="stylesheet" href="/css/menu.css">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-        <h1>Test message</h1>
-        <p th:text="${student.firstName}"></p>
+<div th:replace="~{navbar-fragment.html :: nav}"> </div>
+	<main>
+		<h1>Test message</h1>
+		<p th:text="${student.firstName}"></p>
 
-        <p th:text="${#strings.equalsIgnoreCase(student.lastName,null)} ? 'NA'
+		<p th:text="${#strings.equalsIgnoreCase(student.lastName,null)} ? 'NA'
             : ${student.lastName}"></p>
 
-        <div  th:object="${student}">
+		<div th:object="${student}">
 
-            <h2 th:text="${#strings.equalsIgnoreCase(student.address.streetName,null)} ? 'NA'
+			<h2 th:text="${#strings.equalsIgnoreCase(student.address.streetName,null)} ? 'NA'
             : ${student.address.streetName}"></h2>
 
-        </div>
+		</div>
+	</main>
 </body>
 </html>

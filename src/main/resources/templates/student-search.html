@@ -2,15 +2,22 @@
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Search Students</title>
+  <meta charset="UTF-8">
+  <title>Search Students</title>
+  <link rel="stylesheet" href="/css/menu.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/search.css">
 </head>
 <body>
-    <form action="#" th:action="@{/process-search}" th:object="${name}" method="post">
-      <label>Privide Last Name</label>
-      <input type="text" th:field="*{name}">
-      <br>
-      <input type="submit" value="Search">
-    </form>
+<div th:replace="~{navbar-fragment.html :: nav}"> </div>
+  <main>
+    <div class="container">
+      <form action="#" th:action="@{/process-search}" th:object="${search}" method="post" class="search-form">
+        <input type="text" th:field="*{name}" placeholder="Provide Last Name">
+        <br>
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </main>
 </body>
 </html>

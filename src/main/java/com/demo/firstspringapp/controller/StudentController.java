@@ -52,8 +52,8 @@ public class StudentController {
         AddressDTO addressDTO = new AddressDTO();
         addressDTO.setStreetName(addressClient.printAddressOfBean());
         studentDTO.setAddress(addressDTO);
-        studentDTO.setFirstName("Igor");
-        studentDTO.setLastName("Adulyan");
+        studentDTO.setFirstName("John");
+        studentDTO.setLastName("Will");
         studentDTO.setEmail("test@test.com");
 
         model.addAttribute("student", studentDTO);
@@ -140,19 +140,19 @@ public class StudentController {
     @GetMapping("/search")
     public String findStudentByLastName(Model model)
     {
-        model.addAttribute("name", new SearchModel());
+        model.addAttribute("search", new SearchModel());
 
         return "student-search";
     }
 
     @PostMapping("/process-search")
-    public RedirectView processSearch(@ModelAttribute("name") SearchModel searchModel, RedirectAttributes redirectAttributes)
+    public RedirectView processSearch(@ModelAttribute("search") SearchModel searchModel, RedirectAttributes redirectAttributes)
     {
 
 
         redirectAttributes.addAttribute("student-name", searchModel.getName());
 
-       return new RedirectView("/myboot/search-student");
+       return new RedirectView("/search-student");
     }
 
     @GetMapping("/search-student")

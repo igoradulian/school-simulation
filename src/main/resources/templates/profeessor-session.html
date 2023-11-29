@@ -2,15 +2,18 @@
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Session Example</title>
+	<meta charset="UTF-8">
+	<title>Session Example</title>
+	<link rel="stylesheet" href="/css/menu.css">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+<div th:replace="~{navbar-fragment.html :: nav}"> </div>
+	<main>
+		<p th:text="${professorDTO.lastName}"></p>
 
-<p th:text="${professorDTO.lastName}"></p>
-
-<p th:text="${#strings.equalsIgnoreCase(professorDTO.lastName,null)} ? 'NA'
+		<p th:text="${#strings.equalsIgnoreCase(professorDTO.lastName,null)} ? 'NA'
             : ${professorDTO.lastName}"></p>
-
+	</main>
 </body>
 </html>

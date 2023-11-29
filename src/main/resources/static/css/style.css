@@ -1,0 +1,76 @@
+* {
+	padding: 0px;
+	margin: 0px;
+	text-decoration: none;
+	list-style: none;
+}
+
+body,
+html {
+	background-color: #eff4fd;
+	scroll-behavior: smooth;
+	font-size: 16px;
+	font-weight: 400;
+	color: #000;
+	min-height: 100vh;
+	margin: 0;
+	font-family: 'Secular One', sans-serif;
+}
+
+main{
+    margin-top: 75px;
+}
+
+input, select {
+    border-radius: 200px;
+    padding: 5px 15px;
+    height: 2rem;
+    font-size: 1rem;
+    background-color: #ddd;
+    color: #444;
+    border: none;
+    display: block;
+    margin-top: 1rem;
+    width: 100%;
+    font-family: inherit;
+}
+
+input:focus, select:focus {
+    outline: none;
+}
+
+select{
+    height: 42px;
+    width: calc(100% + 30px);
+    padding: 0 12px;
+    border-right: 15px solid transparent;
+}
+
+button{
+    color: white;
+    background-color: #79e0e5;
+    border: none;
+    padding: 1rem;
+    font-family: inherit;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    display: block;
+    width: 50%;
+    margin: auto;
+    margin-top: 2rem;
+}
+
+button:hover {
+    transition: 1ms;
+    background-color: #72d5db;
+    cursor: pointer;
+}
+
+.button-logout{
+    background-color: #e57979;
+    width: 200px;
+}
+
+.button-logout:hover {
+    background-color: #db7272;
+}

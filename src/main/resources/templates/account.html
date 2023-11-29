@@ -1,44 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-    <meta charset="UTF-8">
-    <title>User Account Page</title>
+  <meta charset="UTF-8">
+  <title>User Account Page</title>
+  <link rel="stylesheet" href="/css/menu.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+<div th:replace="~{navbar-fragment.html :: nav}"> </div>
 
-<h1>This is Student Account</h1>
+  <main>
+    <h1>This is Student Account</h1>
 
-<div sec:authorize="hasRole('ROLE_STUDENT')" th:object="${student}">
-        <a th:href="@{/list-of-students}"> See list of students</a>
-        <label>Email</label>
-        <p th:text="${student.getEmail()}"></p>
-        <label>First Name</label>
-        <p th:text="${student.getFirstName()}"></p>
-        <label>Last Name</label>
-        <p th:text="${student.getLastName()}"></p>
+    <div sec:authorize="hasRole('ROLE_STUDENT')" th:object="${student}">
+      <a th:href="@{/list-of-students}"> See list of students</a>
+      <label>Email</label>
+      <p th:text="${student.getEmail()}"></p>
+      <label>First Name</label>
+      <p th:text="${student.getFirstName()}"></p>
+      <label>Last Name</label>
+      <p th:text="${student.getLastName()}"></p>
 
-</div>
+    </div>
 
-<div sec:authorize="hasRole('ROLE_PROFESSOR')" th:object="${professor}">
-<a th:href="@{/search}"> Search Students </a>
+    <div sec:authorize="hasRole('ROLE_PROFESSOR')" th:object="${professor}">
+      <a th:href="@{/search}"> Search Students </a>
 
-    <label>Email</label>
-    <p th:text="${professor.getEmail()}"></p>
-    <label>First Name</label>
-    <p th:text="${professor.getFirstName()}"></p>
-    <label>Last Name</label>
-    <p th:text="${professor.getLastName()}"></p>
+      <label>Email</label>
+      <p th:text="${professor.getEmail()}"></p>
+      <label>First Name</label>
+      <p th:text="${professor.getFirstName()}"></p>
+      <label>Last Name</label>
+      <p th:text="${professor.getLastName()}"></p>
 
-</div>
+    </div>
 
 
-<br><br>
-<form action=#  th:action="@{/logout}" method="post">
-  <input id="submitButton" type="submit" value="Logout" />
-</form>
-<br>
-
+    <br><br>
+    <form action=# th:action="@{/logout}" method="post">
+      <button id="submitButton" type="submit" class="button-logout">Logout</button>
+    </form>
+    <br>
+    <main>
 </body>
 </html>
